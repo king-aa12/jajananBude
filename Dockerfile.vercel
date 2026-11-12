@@ -1,0 +1,40 @@
+# Vercel Container runtime + Laravel 13 + FrankenPHP
+# The application listens on the PORT supplied by Vercel (fallback: 3000).
+
+FROM node:22-bookworm-slim AS frontend
+WORKDIR /app
+COPY . .
+RUN npm install --no-audit --no-fund \
+    && npm run build
+
+FROM dunglas/frankenphp:1-php8.3-bookworm
+
+RUN install-php-extensions pdo_mysql intl zip opcache
+
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+WORKDIR /app
+COPY . .
+
+RUN composer install \
+    --no-dev \
+    --no-interaction \
+    --prefer-dist \
+    --no-progress \
+    --optimize-autoloader
+
+COPY --from=frontend /app/public/build ./public/build
+
+RUN mkdir -p \
+    storage/framework/cache/data \
+    storage/framework/sessions \
+    storage/framework/views \
+    storage/logs \
+    bootstrap/cache \
+    && chown -R www-data:www-data storage bootstrap/cache
+
+COPY Caddyfile /etc/frankenphp/Caddyfile
+
+EXPOSE 3000
+
+CMD ["frankenphp", "run", "--config", "/etc/frankenphp/Caddyfile"]
