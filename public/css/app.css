@@ -1322,3 +1322,30 @@ input[type=file].input {
         font-size: 19px;
     }
 }
+
+.footer-admin {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    opacity: .8;
+    text-decoration: underline;
+}
+
+.footer-admin:hover {
+    opacity: 1;
+}
+
+.swal2-popup {
+    font-family: 'Poppins', sans-serif;
+    border-radius: 22px;
+}
+
+.swal2-styled {
+    border-radius: 999px !important;
+    font-weight: 600;
+}
+
+.swal2-title {
+    font-size: 20px;
+}

@@ -12,8 +12,14 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Akun admin awal. Segera ganti kata sandi setelah login pertama
-        // (atau atur ADMIN_PASSWORD di file .env sebelum menjalankan seeder).
+        // Di production, kata sandi admin WAJIB diatur lewat variabel ADMIN_PASSWORD
+        // supaya tidak memakai kata sandi bawaan yang mudah ditebak.
+        if (app()->environment('production') && ! env('ADMIN_PASSWORD')) {
+            $this->command->error('ADMIN_PASSWORD belum diatur. Isi variabel ADMIN_PASSWORD lalu jalankan seeder lagi.');
+            return;
+        }
+
+        // Akun admin awal. Menjalankan seeder lagi akan mengatur ulang kata sandi sesuai ADMIN_PASSWORD.
         Admin::updateOrCreate(
             ['username' => env('ADMIN_USERNAME', 'admin')],
             ['password' => Hash::make(env('ADMIN_PASSWORD', 'admin12345'))]

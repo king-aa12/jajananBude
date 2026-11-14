@@ -28,19 +28,14 @@
                 <a href="{{ route('admin.jenis.index') }}" class="chip {{ request()->routeIs('admin.jenis.*') ? 'aktif' : '' }}">Jenis Kue</a>
             </div>
 
-            @if (session('status'))
-                <div class="sukses" role="status">{{ session('status') }}</div>
-            @endif
-            @if (session('gagal'))
-                <div class="peringatan" role="alert">{{ session('gagal') }}</div>
-            @endif
-
             @yield('content')
         </div>
     </main>
 
     @include('partials.footer')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('js/app.js') }}"></script>
+    @include('partials.notifikasi')
     @stack('scripts')
 </body>
 </html>

@@ -2,23 +2,30 @@
 
 namespace App\Providers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
-        //
+        if ($this->app->environment('production')) {
+            // Di Railway, aplikasi berada di balik proxy HTTPS. Percayai header X-Forwarded-*
+            // dan paksa URL (CSS, JS, gambar) memakai https agar tidak diblokir browser.
+            Request::setTrustedProxies(
+                ['*'],
+                Request::HEADER_X_FORWARDED_FOR
+                | Request::HEADER_X_FORWARDED_HOST
+                | Request::HEADER_X_FORWARDED_PORT
+                | Request::HEADER_X_FORWARDED_PROTO
+            );
+            URL::forceScheme('https');
+        }
     }
 }

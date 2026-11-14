@@ -11,6 +11,7 @@
             <a href="{{ route('pesan') }}">@include('partials.ikon', ['n' => 'formulir'])<span>Formulir Pemesanan</span>@include('partials.ikon', ['n' => 'panah', 'kelas' => 'panah'])</a>
             <a href="{{ route('tentang') }}">@include('partials.ikon', ['n' => 'tentang'])<span>Tentang Kami</span>@include('partials.ikon', ['n' => 'panah', 'kelas' => 'panah'])</a>
             <a href="{{ route('kontak') }}">@include('partials.ikon', ['n' => 'kontak'])<span>Kontak</span>@include('partials.ikon', ['n' => 'panah', 'kelas' => 'panah'])</a>
+            <a href="{{ route('admin.login') }}">@include('partials.ikon', ['n' => 'keluar'])<span>Login Admin</span>@include('partials.ikon', ['n' => 'panah', 'kelas' => 'panah'])</a>
         </nav>
     </div>
 </div>

@@ -4,17 +4,12 @@
 
 @section('content')
 <form method="POST" enctype="multipart/form-data" class="kartu-form"
+      data-simpan="{{ $ubah ? 'Simpan perubahan produk ini?' : 'Tambahkan produk ini ke katalog?' }}"
       action="{{ $ubah ? route('admin.produk.update', $produk->id_produk) : route('admin.produk.store') }}">
     @csrf
     @if ($ubah) @method('PUT') @endif
 
     <h2 class="judul-bagian kecil">{{ $ubah ? 'Ubah Produk' : 'Tambah Produk' }}</h2>
-
-    @if ($errors->any())
-        <div class="peringatan" role="alert">
-            @foreach ($errors->all() as $e)<div>{{ $e }}</div>@endforeach
-        </div>
-    @endif
 
     <label class="label" for="nama_produk">Nama kue *</label>
     <input class="input" type="text" id="nama_produk" name="nama_produk" maxlength="100" value="{{ old('nama_produk', $produk->nama_produk) }}" required>
